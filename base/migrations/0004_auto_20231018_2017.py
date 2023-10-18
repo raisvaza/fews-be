@@ -24,7 +24,7 @@ def create_Reading_dummy_data(apps, schema_editor):
                 reading_type = "TinggiAir"
             else:
                 reading_type = "Undefined"
-            Reading.objects.create(pos_id = pos.id, reading_value = random.uniform(0,1000), tipe = reading_type, reading_at = reading_datetime)
+            Reading.objects.create(pos_id = pos, reading_value = random.uniform(0,1000), tipe = reading_type, reading_at = reading_datetime)
 
 
 class Migration(migrations.Migration):

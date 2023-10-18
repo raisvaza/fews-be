@@ -2,6 +2,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.getData),
-    path('add/', views.addItem),
+    path('get-item/', views.getItem),
+    path('add-item/', views.addItem),
+    path('get-pos/', views.get_pos),
+
+
+
+    path('get-latest-predict/', views.get_latest_predict_for_every_pos)
 ]

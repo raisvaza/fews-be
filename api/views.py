@@ -62,3 +62,41 @@ def get_latest_predict_for_every_pos(request):
 
     serializer = PredictSerializer(latest_predict, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def get_reading_rainfall(request):
+    pos_rainfall = Pos.objects.filter(tipe="CurahHujan")
+
+    limit = request.GET.get("limit")
+
+    reading_rainfall_for_all_pos = []
+    for pos in pos_rainfall:
+        readings = Reading.objects.filter(tipe="CurahHujan", pos_id=pos).order_by('-reading_at')[:int(limit)]
+        serializer = ReadingSerializer(readings, many=True)
+        reading_data = {
+            "pos_id": pos.id,
+            "readings": serializer.data
+        }
+        reading_rainfall_for_all_pos.append(reading_data)
+
+    return Response(reading_rainfall_for_all_pos)
+
+@api_view(['GET'])
+def get_reading_waterlevel(request):
+    pos_rainfall = Pos.objects.filter(tipe="DugaAir")
+
+    limit = 7
+    if request.GET.get("limit") != None:
+        limit = request.GET.get("limit")
+
+    reading_rainfall_for_all_pos = []
+    for pos in pos_rainfall:
+        readings = Reading.objects.filter(tipe="TinggiAir", pos_id=pos).order_by('-reading_at')[:int(limit)]
+        serializer = ReadingSerializer(readings, many=True)
+        reading_data = {
+            "pos_id": pos.id,
+            "readings": serializer.data
+        }
+        reading_rainfall_for_all_pos.append(reading_data)
+
+    return Response(reading_rainfall_for_all_pos)
